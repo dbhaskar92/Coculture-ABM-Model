@@ -60,8 +60,7 @@ function [] = coculture_model(task_id)
 
     % Iteration numbers
     itr = 0;
-    %end_time = 1000000;
-    end_time = 1000;
+    end_time = 1000000;
 
     while (itr <= end_time)
 
@@ -243,8 +242,7 @@ function [] = coculture_model(task_id)
         % Plot
         if itr == tnext
 
-            %tnext = tnext + 10000;
-            tnext = tnext + 200;
+            tnext = tnext + 10000;
 
             neighbor_count = [];
             edge_x_pair = [];
@@ -292,7 +290,7 @@ function [] = coculture_model(task_id)
 
             end
 
-            itr_string = sprintf('%06d', itr);
+            itr_string = sprintf('%07d', itr);
 
             csvfname = strcat(cond_str, filesep, 'Pos_', itr_string, '.dat');
             csvwrite(csvfname, z)
@@ -311,7 +309,7 @@ function [] = coculture_model(task_id)
 
             disp_nbh = avg_num_neighbours;
             disp_spd = avg_speed;
-            st = sprintf('Frame T = %06d, Avg. # Neighbours = %0.3f, Avg. Speed = %0.3f, N = %d', itr, disp_nbh, disp_spd, n);
+            st = sprintf('Frame T = %07d, Avg. # Neighbours = %0.3f, Avg. Speed = %0.3f, N = %d', itr, disp_nbh, disp_spd, n);
             disp(st);
 
         end

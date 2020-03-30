@@ -23,7 +23,7 @@ else:
   exit()
 
 def get_frame_data(sim_dir, itr):
-	c_iter = str(itr*100).zfill(6)
+	c_iter = str(itr*100).zfill(7)
 	posMat = pd.read_csv(os.sep.join([sim_dir, 'Pos_'+c_iter+'.dat']), header=None)
 	position = [complex(pos.replace('i','j')) for pos in posMat.values[0]]
 	velMat = pd.read_csv(os.sep.join([sim_dir, 'Velocity_'+c_iter+'.dat']), header=None)
@@ -45,7 +45,7 @@ def get_frame_data(sim_dir, itr):
 	return (position, velocity, num_neighbors, edges, cell_types)
 
 def visualize_frame(sim_dir, itr, disp):
-	itr_s = str(itr).zfill(4)
+	itr_s = str(itr).zfill(5)
 	data = get_frame_data(sim_dir, itr)
 	position = data[0]
 	velocity = data[1]
@@ -84,11 +84,10 @@ def visualize_frame(sim_dir, itr, disp):
 	plt.close()
 
 sim_dir = 'DAH_Complete_Sorting_' + job_id
-#max_iter = 10000
-max_iter = 10
+max_iter = 10000
 os.mkdir(sim_dir+'_plots')
 
 num_cores = multiprocessing.cpu_count()
 print("Number of cores: " + repr(num_cores))
 
-Parallel(n_jobs=num_cores)(delayed(visualize_frame)(sim_dir, frame, False) for frame in range(0, max_iter+1, 2));
+Parallel(n_jobs=num_cores)(delayed(visualize_frame)(sim_dir, frame, False) for frame in range(0, max_iter+1, 100));
