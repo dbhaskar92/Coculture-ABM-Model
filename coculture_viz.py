@@ -84,11 +84,11 @@ def visualize_frame(sim_dir, itr, disp):
 	plt.close()
 
 sim_dir = 'DAH_Complete_Sorting_' + job_id
-max_iter = 10000
-os.mkdir(sim_dir+'_plots')
+max_iter = 50000
+os.mkdir(sim_dir + '_plots')
 
 num_cores = multiprocessing.cpu_count()
 cores_used = min(10, num_cores)
 print("Number of cores: " + repr(num_cores))
 
-Parallel(n_jobs=cores_used)(delayed(visualize_frame)(sim_dir, frame, False) for frame in range(0, max_iter+1, 100));
+Parallel(n_jobs=cores_used)(delayed(visualize_frame)(sim_dir, frame, False) for frame in range(0, max_iter+1, 500));

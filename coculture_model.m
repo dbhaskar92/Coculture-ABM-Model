@@ -23,8 +23,8 @@ function [] = coculture_model(task_id)
     n = 200;                                                    % Number of particles
     boxsize = 10;                                               % Simulation domain
     num_cell_types = 2;                                         % Number of cell types
-    cell_pop_prop = [0.3, 0.7];                                 % Proportion of cells of each type
-    polarity_strength = 0.0075;                                 % Random polarization force   
+    cell_pop_prop = [0.4, 0.6];                                 % Proportion of cells of each type
+    polarity_strength = 0.005;                                  % Random polarization force   
     adhesion_strength = [0.23 0.02; 0.02 0.23];                 % Cell-Cell adhesion matrix
 
     % Check parameter values
@@ -60,7 +60,7 @@ function [] = coculture_model(task_id)
 
     % Iteration numbers
     itr = 0;
-    end_time = 1000000;
+    end_time = 5000000;
 
     while (itr <= end_time)
 
@@ -242,7 +242,7 @@ function [] = coculture_model(task_id)
         % Plot
         if itr == tnext
 
-            tnext = tnext + 10000;
+            tnext = tnext + 50000;
 
             neighbor_count = [];
             edge_x_pair = [];
