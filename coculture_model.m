@@ -9,23 +9,32 @@
 
 % Complete Sorting: [0.23 0.02; 0.02 0.23]
 % Lipid Bilayer: [0.05 0.23; 0.23 0.05]
-% Two Phase: [0.05 0.05; 0.05 0.23] (individual + clusters)
+% Bi-Phasic: [0.05 0.05; 0.05 0.23] (individual + clusters)
 
 function [] = coculture_model(task_id)
 
-    cond_str = strcat("DAH_Complete_Sorting_", num2str(task_id));
+    config_file = strcat("ParamSweep_", num2str(task_id), ".mat");
+    
+    if ~isfile(config_file)
+        
+        disp(strcat("Error: Could not locate file: ", config_file))
+        exit
+        
+    end
+        
+    load(config_file)
+    
+    cond_str = strcat("ParamSweep_", num2str(task_id), "_Output");
     mkdir(char(cond_str));
 
     % Seed RNG
     rng(task_id)
 
     % Params
-    n = 200;                                                    % Number of particles
     boxsize = 10;                                               % Simulation domain
     num_cell_types = 2;                                         % Number of cell types
-    cell_pop_prop = [0.4, 0.6];                                 % Proportion of cells of each type
-    polarity_strength = 0.005;                                  % Random polarization force   
-    adhesion_strength = [0.23 0.02; 0.02 0.23];                 % Cell-Cell adhesion matrix
+    polarity_strength = pol_val;                                % Random polarization force   
+    adhesion_strength = [RR RG; RG GG];                         % Cell-Cell adhesion matrix
 
     % Check parameter values
     assert(numel(cell_pop_prop) == num_cell_types, "Length of cell proportion list does not match number of cell types.");
@@ -44,7 +53,7 @@ function [] = coculture_model(task_id)
     % Toggles
     toggle_periodic_bdy = "on";
     toggle_polarity = "on";
-    toggle_cell_cycle = "on";
+    toggle_cell_cycle = "off";
 
     % Initialze
     z = get_init_pos(boxsize, n);                                            % Particle position
@@ -324,7 +333,9 @@ end
         
 
 function [res] = get_unif_rand(limit, n)
+
     res = -limit + 2 * limit * rand(1, n);
+
 end
 
 
