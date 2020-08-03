@@ -10,6 +10,6 @@
 echo "Starting job $SLURM_ARRAY_TASK_ID on $HOSTNAME"
 matlab-threaded -nodisplay -r "coculture_model($SLURM_ARRAY_TASK_ID); exit"
 
-#module load anaconda/3-5.2.0
-#source activate wong_lab
-#python coculture_viz.py --job $SLURM_ARRAY_TASK_ID
+module load anaconda/3-5.2.0
+source activate wong_lab
+python coculture_viz.py --job $SLURM_ARRAY_TASK_ID
