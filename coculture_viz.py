@@ -5,15 +5,13 @@ import pandas as pd
 import multiprocessing
 
 import matplotlib
-from matplotlib import cm
 import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
 
 from optparse import OptionParser
 from joblib import Parallel, delayed
 
 parser = OptionParser()
-parser.add_option("-j", "--job", dest="jid", action = "store", type = "string", help = "run job", metavar = "JID")
+parser.add_option("-j", "--job", dest = "jid", action = "store", type = "string", help = "run job", metavar = "JID")
 
 (options, args) = parser.parse_args()
 if options.jid:
@@ -63,24 +61,28 @@ def visualize_frame(sim_dir, itr, disp):
 	cdata_types = list()
 	for ctype in cell_types:
 		if ctype == 1:
-			cdata_types.append('red')
+			cdata_types.append('darkorange')
 		elif ctype == 2:
-			cdata_types.append('green')
-		else:
 			cdata_types.append('blue')
+		else:
+			cdata_types.append('black')
 	plt.figure(figsize=(3,3), dpi=300)
-	plt.scatter(np.real(position), np.imag(position), color=cdata_types, s=8)
 	if edges is not None:
 		for e in edges:
-			plt.plot([e[0], e[1]], [e[2], e[3]], marker=None, linewidth=0.75, color='gray', alpha=0.15)
+			plt.plot([e[0], e[1]], [e[2], e[3]], marker=None, linewidth=0.75, color='gray', alpha=0.15, zorder=1)
+	plt.scatter(np.real(position), np.imag(position), color=cdata_types, s=8, zorder=2, edgecolors='k', linewidths=0.2)
 	plt.xticks([])
 	plt.yticks([])
-	plt.xlim([-10.1, 10.1])
-	plt.ylim([-10.1, 10.1])
+	plt.xlim([-10.05, 10.05])
+	plt.ylim([-10.05, 10.05])
+	plt.margins(0,0)
+	plt.gca().xaxis.set_major_locator(plt.NullLocator())
+	plt.gca().yaxis.set_major_locator(plt.NullLocator())
 	if disp:
 		plt.show()
 	else:
-		plt.savefig(sim_dir+'_plots'+os.sep+itr_s+'.png', bbox_inches='tight')
+		plt.tight_layout()
+		plt.savefig(sim_dir + '_plots' + os.sep + itr_s + '.png', bbox_inches='tight', pad_inches=0)
 	plt.close()
 
 sim_dir = 'ParamSweep_' + job_id + '_Output'
